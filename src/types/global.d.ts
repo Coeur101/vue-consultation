@@ -10,4 +10,5 @@ export interface GOLBAL_API_STATUS {
    * 接口信息
    */
   message: string
+  status?: boolean
 }

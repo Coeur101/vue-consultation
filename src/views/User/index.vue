@@ -27,8 +27,10 @@ const handleLogout = async () => {
 }
 
 onMounted(async () => {
-  const result = await reqUserInfo()
-  userInfo.value = result.data
+  try {
+    const result = await reqUserInfo()
+    userInfo.value = result.data
+  } catch (error) {}
 })
 </script>
 
