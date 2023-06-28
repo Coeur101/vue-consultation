@@ -19,6 +19,8 @@ const useUserStore = defineStore('userStore', {
     delUser() {
       this.user = {} as USER_DATA
     }
-  }
+  },
+  // 开启数据持久化
+  persist: true
 })
 export default useUserStore

@@ -3,6 +3,8 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { VantResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig({
   // base:""服务器中放置打包代码的目录名
@@ -14,6 +16,9 @@ export default defineConfig({
     }),
     AutoImport({
       imports: 'vue'
+    }),
+    Components({
+      resolvers: [VantResolver()]
     })
   ],
   resolve: {
