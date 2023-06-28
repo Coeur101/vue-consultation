@@ -28,3 +28,13 @@ export interface USER_DATA {
 export interface RES_USER_DATA extends GOLBAL_API_STATUS {
   data: USER_DATA
 }
+export type CodeType = 'login' | 'register' | 'changeMobile' | 'forgetPassword' | 'bindMobile'
+export interface CODE_DATA {
+  /**
+   * 手机验证码
+   */
+  code: string
+}
+export interface RES_CODE_DATA extends GOLBAL_API_STATUS {
+  data: CODE_DATA
+}

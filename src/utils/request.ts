@@ -24,13 +24,12 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (res) => {
     // 返回正常的为1000其余为错误
-    if (res.data.code !== 1000) {
+    if (res.data.code !== 10000) {
       showToast({
         type: 'fail',
         message: res.data.message
       })
-
-      return Promise.reject(res.data)
+      return Promise.reject(new Error(res.data.message))
     }
     return res.data
   },
