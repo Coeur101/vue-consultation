@@ -21,6 +21,10 @@ const useUserStore = defineStore('userStore', {
     }
   },
   // 开启数据持久化
-  persist: true
+  // 自定义存储指定的数据，key值
+  persist: {
+    // 存储指定的变量
+    paths: ['user']
+  }
 })
 export default useUserStore
