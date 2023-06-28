@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "nprogress": "^0.2.0",
     "pinia": "^2.1.3",
     "pinia-plugin-persistedstate": "^3.1.0",
     "vant": "^4.6.0",
@@ -23,6 +24,7 @@
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.1",
     "@types/node": "^18.16.17",
+    "@types/nprogress": "^0.2.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/eslint-config-prettier": "^7.1.0",
     "@vue/eslint-config-typescript": "^11.0.3",

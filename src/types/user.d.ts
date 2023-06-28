@@ -38,3 +38,79 @@ export interface CODE_DATA {
 export interface RES_CODE_DATA extends GOLBAL_API_STATUS {
   data: CODE_DATA
 }
+
+/**
+ * 问诊中信息
+ */
+export interface CONSULTATION_INFO {
+  /**
+   * 医生头像
+   */
+  avatar: string
+  /**
+   * 科室
+   */
+  depName: string
+  /**
+   * 医院等级
+   */
+  gradeName: string
+  /**
+   * 医院名称
+   */
+  hospitalName: string
+  /**
+   * 医生id
+   */
+  id: string
+  /**
+   * 医生姓名
+   */
+  name: string
+  /**
+   * 订单id
+   */
+  orderId: string
+  /**
+   * 职称
+   */
+  positionalTitles: string
+}
+
+export interface ORDER_INFO {
+  /**
+   * 已完成
+   */
+  finishedNumber: number
+  /**
+   * 待付款
+   */
+  paidNumber: number
+  /**
+   * 待发货
+   */
+  receivedNumber: number
+  /**
+   * 待收货
+   */
+  shippedNumber: number
+}
+/**
+ * empty object
+ */
+export type TRUE_USER_DATA = Omit<USER_DATA, 'token'> & {
+  orderInfo: ORDER_INFO
+  consultationInfo: CONSULTATION_INFO[]
+  /** 关注 */
+  likeNumber: number
+  /** 收藏 */
+  collectionNumber: number
+  /** 积分 */
+  score: number
+  /** 优惠券 */
+  couponNumber: number
+}
+
+export interface RES_TRUE_USER_DATA extends GOLBAL_API_STATUS {
+  data: TRUE_USER_DATA
+}
