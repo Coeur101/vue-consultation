@@ -1,22 +1,20 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import { mobileRules, passwordRules, codeRules } from '@/utils/rules'
-import { type FormInstance, showToast } from 'vant'
-import { reqLogin, reqMoblieCode, reqCodeLogin } from '@/api/user/index'
+import { showToast } from 'vant'
+import { useSendCode } from '@/hooks/useSendCode'
+import { reqLogin, reqCodeLogin } from '@/api/user/index'
 import useUserStore from '@/stores/modules/user'
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 const agree = ref(false)
 const isPass = ref(false)
-const form = ref<FormInstance>()
-const code = ref('')
-// 倒计时
-const time = ref(0)
-let timeId: number
+
 // 登录所需
 const mobile = ref('')
 const password = ref('')
+const { code, form, time, sendCode } = useSendCode(mobile.value)
 const switchLogin = () => {
   isPass.value = !isPass.value
 }
@@ -35,32 +33,11 @@ const login = async () => {
       ? await reqCodeLogin(mobile.value, code.value)
       : await reqLogin(mobile.value, password.value)
     userStore.setUser(result.data)
-    router.push(route.query.returnUrl ? (route.query.returnUrl as string) : '/user')
+    router.push(
+      route.query.returnUrl ? (route.query.returnUrl as string) : '/user'
+    )
   } catch (error) {}
 }
-const sendCode = async () => {
-  if (time.value > 0) return
-  // 必须要通过校验才能发送验证码
-  await form.value?.validate('mobile')
-  try {
-    const result = await reqMoblieCode(mobile.value, 'login')
-    showToast({
-      type: 'success',
-      message: '发送成功'
-    })
-    code.value = result.data.code
-    time.value = 60
-    clearInterval(timeId)
-    timeId = setInterval(() => {
-      time.value--
-      if (time.value <= 0) window.clearInterval(timeId)
-    }, 1000)
-  } catch (error) {}
-}
-// 组件卸载后，删除定时器
-onUnmounted(() => {
-  window.clearInterval(timeId)
-})
 </script>
 <template>
   <div class="login-page">
@@ -88,11 +65,19 @@ onUnmounted(() => {
         type="tel"
       ></van-field>
       <template v-if="isPass">
-        <van-field placeholder="请输入验证码" v-model="code" type="tel" :rules="codeRules">
+        <van-field
+          placeholder="请输入验证码"
+          v-model="code"
+          type="tel"
+          :rules="codeRules"
+        >
           <template #button>
-            <van-button size="small" @click="sendCode" :class="{ active: time > 0 }">{{
-              time > 0 ? `${time}s后再次发送` : '发送验证码'
-            }}</van-button>
+            <van-button
+              size="small"
+              @click="sendCode"
+              :class="{ active: time > 0 }"
+              >{{ time > 0 ? `${time}s后再次发送` : '发送验证码' }}</van-button
+            >
           </template>
         </van-field>
       </template>
@@ -113,7 +98,9 @@ onUnmounted(() => {
         </van-checkbox>
       </div>
       <div class="cp-cell">
-        <van-button block native-type="submit" round type="primary">登 录</van-button>
+        <van-button block native-type="submit" round type="primary"
+          >登 录</van-button
+        >
       </div>
       <div class="cp-cell">
         <a href="javascript:;">忘记密码？</a>
