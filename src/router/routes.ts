@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/user/patient',
-    component: () => import('@/views/User/PatientPage.vue'),
+    component: () => import('@/views/User/c-cnps/PatientPage.vue'),
     meta: { title: '家庭档案' }
   }
 ]

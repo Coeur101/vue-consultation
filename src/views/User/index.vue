@@ -180,7 +180,7 @@ onMounted(async () => {
     }
     .van-col {
       text-align: center;
-      .cp-icon {
+      .icon {
         font-size: 28px;
       }
       p {
@@ -201,7 +201,7 @@ onMounted(async () => {
     .van-cell {
       align-items: center;
     }
-    .cp-icon {
+    .icon {
       font-size: 17px;
       margin-right: 10px;
     }

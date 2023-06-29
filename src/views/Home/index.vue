@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import KnowledgeList from './c-cnps/know-leage-list.vue'
+import followDoctor from './c-cnps/follow-doctor.vue'
 const active = ref(1)
 </script>
 
@@ -7,8 +9,10 @@ const active = ref(1)
     <!-- 头部 -->
     <div class="home-header">
       <div class="con">
-        <h1>优医</h1>
-        <div class="search"><cp-icon name="home-search" /> 搜一搜：疾病/症状/医生/健康知识</div>
+        <h1>医疗</h1>
+        <div class="search">
+          <cp-icon name="home-search" /> 搜一搜：疾病/症状/医生/健康知识
+        </div>
       </div>
     </div>
     <!-- 导航 -->
@@ -75,12 +79,19 @@ const active = ref(1)
       </van-swipe>
     </div>
     <van-tabs shrink sticky v-model:active="active">
-      <van-tab title="关注">1</van-tab>
+      <van-tab title="关注">
+        <followDoctor></followDoctor>
+        <KnowledgeList type="like"></KnowledgeList
+      ></van-tab>
       <van-tab title="推荐">
-        <p v-for="i in 100" :key="i">内容</p>
+        <KnowledgeList type="recommend"></KnowledgeList>
       </van-tab>
-      <van-tab title="减脂">3</van-tab>
-      <van-tab title="饮食">4</van-tab>
+      <van-tab title="减脂"
+        ><KnowledgeList type="fatReduction"></KnowledgeList
+      ></van-tab>
+      <van-tab title="饮食"
+        ><KnowledgeList type="food"></KnowledgeList
+      ></van-tab>
     </van-tabs>
   </div>
 </template>
@@ -138,7 +149,7 @@ const active = ref(1)
     flex-direction: column;
     align-items: center;
     padding: 10px 0;
-    .cp-icon {
+    .icon {
       font-size: 48px;
     }
     .title {
