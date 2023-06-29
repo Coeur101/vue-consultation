@@ -135,8 +135,8 @@ export interface PATIENTS_DATA {
   /**
    * 性别值
    */
-  genderValue: string
-  id: string
+  genderValue?: string
+  id?: string | number
   /**
    * 患者身份证号
    */

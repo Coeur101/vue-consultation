@@ -17,15 +17,6 @@ let timeId: number
 // 登录所需
 const mobile = ref('')
 const password = ref('')
-const handleClickLeft = () => {
-  // 判断是否有上级页面，有则返回
-  if (history.state.back) {
-    router.back()
-  } else {
-    // 不存在则跳回首页
-    router.push('/')
-  }
-}
 const switchLogin = () => {
   isPass.value = !isPass.value
 }
@@ -77,7 +68,6 @@ onUnmounted(() => {
       title="登录"
       right_title="注册"
       left_title=""
-      @click-left="handleClickLeft"
       @click_right="handleClickRight"
     ></cp-nav-bar>
     <!-- 头部 -->

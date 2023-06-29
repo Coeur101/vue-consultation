@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
 
 const router = useRouter()
-const baseURL = 'https://consult-api.itheima.net/'
+const baseURL = import.meta.env.VITE_SERVE
 const request = axios.create({
   baseURL,
   timeout: 1000 * 10
