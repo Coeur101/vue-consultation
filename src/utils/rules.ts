@@ -26,4 +26,18 @@ const patientsIDCardRules = [
     message: '请输入正确的身份证号格式'
   }
 ]
-export { mobileRules, passwordRules, codeRules, patientsNameRules, patientsIDCardRules }
+// 设置病情描述的规则
+const illnessDescRules = [
+  {
+    required: true,
+    message: '病情描述不能为空'
+  }
+]
+export {
+  mobileRules,
+  passwordRules,
+  codeRules,
+  patientsNameRules,
+  patientsIDCardRules,
+  illnessDescRules
+}

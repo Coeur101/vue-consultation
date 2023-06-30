@@ -13,7 +13,11 @@ const routes: RouteRecordRaw[] = [
 
     redirect: '/home',
     children: [
-      { path: '/home', component: () => import('@/views/Home/index.vue'), meta: { title: '首页' } },
+      {
+        path: '/home',
+        component: () => import('@/views/Home/index.vue'),
+        meta: { title: '首页' }
+      },
       {
         path: '/article',
         component: () => import('@/views/Article/index.vue'),
@@ -35,6 +39,26 @@ const routes: RouteRecordRaw[] = [
     path: '/user/patient',
     component: () => import('@/views/User/c-cnps/PatientPage.vue'),
     meta: { title: '家庭档案' }
+  },
+  {
+    path: '/consult/fast',
+    component: () => import('@/views/Consult/index.vue'),
+    meta: {
+      title: '极速问诊'
+    }
+  },
+  {
+    path: '/consult/dep',
+    component: () => import('@/views/Consult/c-cnps/consultDep.vue'),
+    meta: {
+      title: '选择科室'
+    }
+  },
+
+  {
+    path: '/consult/illness',
+    component: () => import('@/views/Consult/c-cnps/consultIllness.vue'),
+    meta: { title: '病情描述' }
   }
 ]
 export default routes
