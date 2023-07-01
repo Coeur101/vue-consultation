@@ -96,7 +96,7 @@ export interface RES_LIKE_DATA extends GOLBAL_API_STATUS {
 }
 
 /**
- * 返回数据
+ * 关注的返回数据
  */
 export interface LIKE_DATA {
   /**
@@ -222,3 +222,23 @@ export type ConsultIllness = Pick<
   PartialConsult,
   'illnessDesc' | 'illnessTime' | 'consultFlag' | 'pictures'
 >
+//  订单预支付信息
+// 调接口需要传入的参数
+export type ConsultOrderPreParams = Pick<PartialConsult, 'type' | 'illnessType'>
+
+// 问诊订单预支付信息
+export type ConsultOrderPreData = {
+  /** 积分抵扣 */
+  pointDeduction: number
+  /** 优惠券抵扣 */
+  couponDeduction: number
+  /** 优惠券ID */
+  couponId: string
+  /** 需付款 */
+  payment: number
+  /** 实付款 */
+  actualPayment: number
+}
+export interface RES_ORDER_INFO_DATA extends GOLBAL_API_STATUS {
+  data: ConsultOrderPreData
+}

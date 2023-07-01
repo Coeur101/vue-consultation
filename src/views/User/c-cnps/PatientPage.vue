@@ -101,6 +101,7 @@ const loadPatientList = async () => {
       )
       if (defPatient) {
         patientId.value = defPatient.id
+        selectPatient.value = defPatient
       } else {
         patientId.value = patientList.value[0].id
       }
@@ -109,15 +110,18 @@ const loadPatientList = async () => {
 }
 const isSelect = computed(() => route.query.isSelect === '1')
 const patientId = ref<string | number>()
+const selectPatient = ref<PATIENTS_DATA>()
 const selectedPatient = (data: PATIENTS_DATA) => {
   if (isSelect.value) {
     patientId.value = data.id
+    selectPatient.value = data
   }
 }
 /** 记录患者id开始跳转支付页面 */
 const next = () => {
   if (!patientId.value) showFailToast('请选择患者')
-  consultStore.setPatient(patientId.value as string)
+  consultStore.setPatientId(patientId.value as string)
+  consultStore.setPatient(selectPatient.value as PATIENTS_DATA)
   router.push('/consult/pay')
 }
 onMounted(() => {

@@ -5,7 +5,9 @@ import type {
   RES_LIKE_DATA,
   FOLLOW_TYPE,
   RES_DEP_DATA,
-  RES_IMG_DATA
+  RES_IMG_DATA,
+  ConsultOrderPreParams,
+  RES_ORDER_INFO_DATA
 } from '@/types/consult'
 import { request } from '@/utils/request'
 enum API {
@@ -18,7 +20,9 @@ enum API {
   /** 获取所有科室 */
   GET_DEP_URL = 'dep/all',
   /** 上传患者图片 */
-  UPDATE_DISEASE_URL = 'upload'
+  UPDATE_DISEASE_URL = 'upload',
+  /** 获取预订单支付信息 */
+  GET_ORDER_URL = 'patient/consult/order/pre'
 }
 export const reqKnwledge = <T>(knowledgeParams: REQ_KNOWLEDGE_DATA) => {
   return request.get<T, RES_HOME_DATA>(API.GET_KNOWLEDGE_URL, {
@@ -44,4 +48,11 @@ export const reqImg = <T>(file: File) => {
   const formData = new FormData()
   formData.append('file', file)
   return request.post<T, RES_IMG_DATA>(API.UPDATE_DISEASE_URL, formData)
+}
+export const reqOrderInfo = <T>(params: ConsultOrderPreParams) => {
+  return request.get<T, RES_ORDER_INFO_DATA>(API.GET_ORDER_URL, {
+    params: {
+      ...params
+    }
+  })
 }
