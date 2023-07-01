@@ -3,6 +3,8 @@
 import { IllnessTime } from '@/enum'
 import { flagOptions, timeOptions } from '@/services/constants'
 import { type FOLLOW_DOCTOR_DATA, type Image } from '@/types/consult'
+import * as dayjs from 'dayjs'
+const formatTime = (time: string) => dayjs(time).format('HH:mm:ss')
 
 import type { Message } from '@/types/room'
 import { MsgType } from '@/enum'
@@ -23,7 +25,7 @@ const previewImg = (pictures?: Image[]) => {
 </script>
 
 <template>
-  <template v-for="{ msgType, msg, from } in list" :key="msg.id">
+  <template v-for="{ msgType, msg, from, createTime } in list" :key="msg.id">
     <!-- 病情描述 -->
     <div class="msg msg-illness" v-if="msgType === MsgType.CardPat">
       <div class="patient van-hairline--bottom" v-if="msg.consultRecord">
@@ -76,7 +78,7 @@ const previewImg = (pictures?: Image[]) => {
       v-if="msgType === MsgType.MsgText && userStore.user?.id === from"
     >
       <div class="content">
-        <!-- <div class="time">{{ formatTime(createTime) }}</div> -->
+        <div class="time">{{ formatTime(createTime) }}</div>
         <div class="pao">{{ msg.content }}</div>
       </div>
       <van-image :src="userStore.user?.avatar" />
@@ -102,7 +104,7 @@ const previewImg = (pictures?: Image[]) => {
     >
       <van-image :src="docInfo.avatar" />
       <div class="content">
-        <!-- <div class="time">{{ formatTime(createTime) }}</div> -->
+        <div class="time">{{ formatTime(createTime) }}</div>
         <div class="pao">{{ msg.content }}</div>
       </div>
     </div>
