@@ -11,7 +11,8 @@ import type {
   PartialConsult,
   RES_GENERATE_ORDER_DATA,
   REQ_PAY_DATA,
-  RES_PAY_DATA
+  RES_PAY_DATA,
+  RES_CONSULT_STATUS
 } from '@/types/consult'
 import { request } from '@/utils/request'
 enum API {
@@ -30,7 +31,9 @@ enum API {
   /** 生成订单 */
   GENERATE_ORDER_URL = 'patient/consult/order',
   /** 订单支付接口 */
-  PAY_URL = 'patient/consult/pay'
+  PAY_URL = 'patient/consult/pay',
+  /** 获取接诊状态 */
+  GET_CONSULT_STATUS = 'patient/consult/order/detail'
 }
 export const reqKnwledge = <T>(knowledgeParams: REQ_KNOWLEDGE_DATA) => {
   return request.get<T, RES_HOME_DATA>(API.GET_KNOWLEDGE_URL, {
@@ -70,4 +73,11 @@ export const reqOrder = <T>(data: PartialConsult) => {
 }
 export const reqPay = <T>(data: REQ_PAY_DATA) => {
   return request.post<T, RES_PAY_DATA>(API.PAY_URL, data)
+}
+export const reqConsultStatus = <T>(orderId: string) => {
+  return request.get<T, RES_CONSULT_STATUS>(API.GET_CONSULT_STATUS, {
+    params: {
+      orderId
+    }
+  })
 }

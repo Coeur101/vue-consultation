@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { IllnessTime } from '@/enum'
 import { useConsultStore } from '@/stores/modules/consult'
 import type { ConsultIllness, Image } from '@/types/consult'
+import { timeOptions, flagOptions } from '@/services/constants'
 import { showConfirmDialog } from 'vant'
 import { reqImg } from '@/api/consult/index'
 import type {
@@ -11,16 +11,7 @@ import type {
 import { useRouter } from 'vue-router'
 const consultStore = useConsultStore()
 const router = useRouter()
-const timeOptions = [
-  { text: '一周内', value: IllnessTime.Week },
-  { text: '一月内', value: IllnessTime.Month },
-  { text: '半年内', value: IllnessTime.HalfYear },
-  { text: '大于半年', value: IllnessTime.More }
-]
-const flagOptions = [
-  { text: '就诊过', value: 0 },
-  { text: '没就诊过', value: 1 }
-]
+
 const form = ref<ConsultIllness>({
   illnessDesc: '',
   illnessTime: undefined,
