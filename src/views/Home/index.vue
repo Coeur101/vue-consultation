@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import KnowledgeList from './c-cnps/know-leage-list.vue'
 import followDoctor from './c-cnps/follow-doctor.vue'
+import { useConsultStore } from '@/stores/modules/consult'
+const consultStore = useConsultStore()
 const active = ref(1)
 </script>
 
@@ -26,7 +28,11 @@ const active = ref(1)
           </router-link>
         </van-col>
         <van-col span="8">
-          <router-link to="/consult/fast" class="nav">
+          <router-link
+            to="/consult/fast"
+            @click="consultStore.setType(2)"
+            class="nav"
+          >
             <cp-icon name="home-graphic"></cp-icon>
             <p class="title">极速问诊</p>
             <p class="desc">20s医生极速回复</p>

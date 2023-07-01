@@ -242,3 +242,29 @@ export type ConsultOrderPreData = {
 export interface RES_ORDER_INFO_DATA extends GOLBAL_API_STATUS {
   data: ConsultOrderPreData
 }
+
+export interface RES_GENERATE_ORDER_DATA extends GOLBAL_API_STATUS {
+  data: { id: string }
+}
+export type REQ_PAY_DATA = {
+  /**
+   * 订单id
+   */
+  orderId: string
+  /**
+   * 上课自测时，传值：http://localhost:端口号/+回调页面，
+   * vue版本测试环境，传值：http://测试环境域名/+回调页面，
+   * 用于决定付款成功后，回调地址是本地还是测试环境地址
+   */
+  payCallback?: string
+  /**
+   * 支付方式0微信支付，1支付宝2云闪付
+   */
+  paymentMethod?: 0 | 1 | 2
+}
+export type PAY_DATA = {
+  payUrl: string
+}
+export interface RES_PAY_DATA extends GOLBAL_API_STATUS {
+  data: PAY_DATA
+}

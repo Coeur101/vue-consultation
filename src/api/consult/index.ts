@@ -7,7 +7,11 @@ import type {
   RES_DEP_DATA,
   RES_IMG_DATA,
   ConsultOrderPreParams,
-  RES_ORDER_INFO_DATA
+  RES_ORDER_INFO_DATA,
+  PartialConsult,
+  RES_GENERATE_ORDER_DATA,
+  REQ_PAY_DATA,
+  RES_PAY_DATA
 } from '@/types/consult'
 import { request } from '@/utils/request'
 enum API {
@@ -22,7 +26,11 @@ enum API {
   /** 上传患者图片 */
   UPDATE_DISEASE_URL = 'upload',
   /** 获取预订单支付信息 */
-  GET_ORDER_URL = 'patient/consult/order/pre'
+  GET_ORDER_URL = 'patient/consult/order/pre',
+  /** 生成订单 */
+  GENERATE_ORDER_URL = 'patient/consult/order',
+  /** 订单支付接口 */
+  PAY_URL = 'patient/consult/pay'
 }
 export const reqKnwledge = <T>(knowledgeParams: REQ_KNOWLEDGE_DATA) => {
   return request.get<T, RES_HOME_DATA>(API.GET_KNOWLEDGE_URL, {
@@ -55,4 +63,11 @@ export const reqOrderInfo = <T>(params: ConsultOrderPreParams) => {
       ...params
     }
   })
+}
+// 生成订单接口
+export const reqOrder = <T>(data: PartialConsult) => {
+  return request.post<T, RES_GENERATE_ORDER_DATA>(API.GENERATE_ORDER_URL, data)
+}
+export const reqPay = <T>(data: REQ_PAY_DATA) => {
+  return request.post<T, RES_PAY_DATA>(API.PAY_URL, data)
 }

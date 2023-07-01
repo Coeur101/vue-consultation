@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IllnessTime } from '@/enum'
 import { useConsultStore } from '@/stores/modules/consult'
-import type { ConsultIllness } from '@/types/consult'
+import type { ConsultIllness, Image } from '@/types/consult'
 import { showConfirmDialog } from 'vant'
 import { reqImg } from '@/api/consult/index'
 import type {
@@ -27,6 +27,7 @@ const form = ref<ConsultIllness>({
   consultFlag: undefined,
   pictures: []
 })
+const imageList = ref<Image[]>()
 // 按钮禁用状态
 const disabled = computed(() => {
   return (
@@ -47,8 +48,9 @@ const handleAfterRead: UploaderAfterRead = (item) => {
       item.message = undefined
       item.url = res.data.url
       if (item.status !== 'done') {
-        form.value.pictures?.push(res.data)
+        imageList.value?.push(res.data)
       }
+      form.value.pictures?.push(res.data)
     })
     .catch(() => {
       item.status = 'failed'
@@ -122,7 +124,7 @@ onMounted(() => {
       </div>
       <div class="illness-img">
         <van-uploader
-          v-model="form.pictures"
+          v-model="imageList"
           upload-icon="photo-o"
           max-count="9"
           max-size="1024*1024*5"

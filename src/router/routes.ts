@@ -64,6 +64,19 @@ const routes: RouteRecordRaw[] = [
     path: '/consult/pay',
     component: () => import('@/views/Consult/c-cnps/consultPay.vue'),
     meta: { title: '问诊支付' }
+  },
+  {
+    path: '/room',
+    component: () => import('@/views/Room/index.vue'),
+    beforeEnter: (to) => {
+      // 判断是否支付成功，支付失败则跳入问诊记录中
+      if (to.query.payResult === 'false') {
+        return '/user/consult'
+      }
+    },
+    meta: {
+      title: '问诊室'
+    }
   }
 ]
 export default routes
