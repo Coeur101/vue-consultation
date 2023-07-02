@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/user/patient',
-    component: () => import('@/views/User/c-cnps/PatientPage.vue'),
+    component: () => import('@/views/User/c-cnps/patient-page.vue'),
     meta: { title: '家庭档案' }
   },
   {
@@ -49,7 +49,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/consult/dep',
-    component: () => import('@/views/Consult/c-cnps/consultDep.vue'),
+    component: () => import('@/views/Consult/c-cnps/consult-dep.vue'),
     meta: {
       title: '选择科室'
     }
@@ -57,12 +57,12 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/consult/illness',
-    component: () => import('@/views/Consult/c-cnps/consultIllness.vue'),
+    component: () => import('@/views/Consult/c-cnps/consultI-llness.vue'),
     meta: { title: '病情描述' }
   },
   {
     path: '/consult/pay',
-    component: () => import('@/views/Consult/c-cnps/consultPay.vue'),
+    component: () => import('@/views/Consult/c-cnps/consult-pay.vue'),
     meta: { title: '问诊支付' }
   },
   {
@@ -77,6 +77,11 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '问诊室'
     }
+  },
+  {
+    path: '/user/consult',
+    component: () => import('@/views/User/c-cnps/consult-page.vue'),
+    meta: { title: '问诊记录' }
   }
 ]
 export default routes

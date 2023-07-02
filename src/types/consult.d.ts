@@ -310,3 +310,17 @@ export interface RES_PRECRIPTION_DATA extends GOLBAL_API_STATUS {
     url: string
   }
 }
+// 定义获取订单列表的接口参数类型
+export type ConsultOrderListParams = REQ_DOCTOR_DATA & {
+  /** 问诊记录类型 */
+  type: ConsultType
+}
+export type ConsultOrderPage = {
+  pageTotal: number
+  total: number
+  rows: ConsultOrderItem[]
+}
+// 定义获取订单列表的返回参数类型
+export interface RES_CONSULT_LIST extends GOLBAL_API_STATUS {
+  data: ConsultOrderPage
+}

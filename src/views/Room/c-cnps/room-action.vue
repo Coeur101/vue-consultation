@@ -6,7 +6,7 @@ import { reqImg } from '@/api/consult'
 import { showLoadingToast } from 'vant'
 const text = ref('')
 defineProps<{
-  status?: OrderType
+  disabled?: OrderType
 }>()
 const emit = defineEmits<{
   (e: 'send-text', data?: string): void
@@ -38,10 +38,10 @@ const handleSendImage: UploaderAfterRead = async (data) => {
       placeholder="问医生"
       autocomplete="off"
       @keyup.enter="handleSendText"
-      :disabled="status === OrderType.ConsultChat"
+      :disabled="disabled !== OrderType.ConsultChat"
     ></van-field>
     <van-uploader
-      :disabled="status === OrderType.ConsultChat"
+      :disabled="disabled !== OrderType.ConsultChat"
       :preview-image="false"
       :after-read="handleSendImage"
     >

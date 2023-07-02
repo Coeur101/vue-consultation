@@ -66,7 +66,9 @@ onMounted(async () => {
     <div class="user-page-order">
       <div class="head">
         <h3>药品订单</h3>
-        <router-link to="/order">全部订单 <van-icon name="arrow" /></router-link>
+        <router-link to="/order"
+          >全部订单 <van-icon name="arrow"
+        /></router-link>
       </div>
       <van-row>
         <van-col span="6">
@@ -120,7 +122,11 @@ onMounted(async () => {
   // 头部
   &-head {
     height: 200px;
-    background: linear-gradient(180deg, rgba(44, 181, 165, 0.46), rgba(44, 181, 165, 0));
+    background: linear-gradient(
+      180deg,
+      rgba(44, 181, 165, 0.46),
+      rgba(44, 181, 165, 0)
+    );
     margin: 0 -15px;
     padding: 0 15px;
     .top {

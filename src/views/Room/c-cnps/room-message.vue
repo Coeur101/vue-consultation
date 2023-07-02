@@ -168,7 +168,7 @@ const showPrescription = async (id?: string) => {
       v-if="msgType === MsgType.CardEva || msgType === MsgType.CardEvaForm"
     >
       <!-- 评价卡片，后期实现 -->
-      <EvaluateCard></EvaluateCard>
+      <EvaluateCard :evaluateDoc="msg.evaluateDoc"></EvaluateCard>
     </div>
   </template>
 </template>

@@ -74,6 +74,8 @@ const onClose = async () => {
 }
 
 onMounted(() => {
+  console.log(consultStore.consult)
+
   type Key = keyof PartialConsult
   // 刷新页面后信息丢失的问题
   const validKeys: Key[] = [

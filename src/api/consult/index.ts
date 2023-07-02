@@ -13,7 +13,9 @@ import type {
   REQ_PAY_DATA,
   RES_PAY_DATA,
   RES_CONSULT_STATUS,
-  RES_PRECRIPTION_DATA
+  RES_PRECRIPTION_DATA,
+  ConsultOrderListParams,
+  RES_CONSULT_LIST
 } from '@/types/consult'
 import { request } from '@/utils/request'
 enum API {
@@ -38,7 +40,11 @@ enum API {
   /** 获取处方 */
   GET_PRESCRIPTION_URL = 'patient/consult/prescription',
   /** 医生评价 */
-  DOCTOR_EVALUATE = 'patient/order/evaluate'
+  DOCTOR_EVALUATE = 'patient/order/evaluate',
+  /** 获取订单列表 */
+  GET_CONSULT_ORDER_LIST = 'patient/consult/order/list',
+  /** 取消订单 */
+  CANCEL_ORDER = 'patient/order/cancel'
 }
 export const reqKnwledge = <T>(knowledgeParams: REQ_KNOWLEDGE_DATA) => {
   return request.get<T, RES_HOME_DATA>(API.GET_KNOWLEDGE_URL, {
@@ -97,4 +103,12 @@ export const reqEvaluateConsultOrder = <T>(data: {
   score: number
   content: string
   anonymousFlag: 0 | 1
-}) => request.post<T, any>('', data)
+}) => request.post<T, any>(API.DOCTOR_EVALUATE, data)
+export const reqOrderList = <T>(params: ConsultOrderListParams) => {
+  return request.get<T, RES_CONSULT_LIST>(API.GET_CONSULT_ORDER_LIST, {
+    params
+  })
+}
+export const reqCancelOrder = <T>(id: string) => {
+  return request.put<T, any>(API.CANCEL_ORDER + `/${id}`)
+}
