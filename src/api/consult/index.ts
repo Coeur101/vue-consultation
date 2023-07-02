@@ -12,7 +12,8 @@ import type {
   RES_GENERATE_ORDER_DATA,
   REQ_PAY_DATA,
   RES_PAY_DATA,
-  RES_CONSULT_STATUS
+  RES_CONSULT_STATUS,
+  RES_PRECRIPTION_DATA
 } from '@/types/consult'
 import { request } from '@/utils/request'
 enum API {
@@ -33,7 +34,11 @@ enum API {
   /** 订单支付接口 */
   PAY_URL = 'patient/consult/pay',
   /** 获取接诊状态 */
-  GET_CONSULT_STATUS = 'patient/consult/order/detail'
+  GET_CONSULT_STATUS = 'patient/consult/order/detail',
+  /** 获取处方 */
+  GET_PRESCRIPTION_URL = 'patient/consult/prescription',
+  /** 医生评价 */
+  DOCTOR_EVALUATE = 'patient/order/evaluate'
 }
 export const reqKnwledge = <T>(knowledgeParams: REQ_KNOWLEDGE_DATA) => {
   return request.get<T, RES_HOME_DATA>(API.GET_KNOWLEDGE_URL, {
@@ -81,3 +86,15 @@ export const reqConsultStatus = <T>(orderId: string) => {
     }
   })
 }
+export const reqPrescription = <T>(id: string) => {
+  return request.get<T, RES_PRECRIPTION_DATA>(
+    API.GET_PRESCRIPTION_URL + `/${id}`
+  )
+}
+export const reqEvaluateConsultOrder = <T>(data: {
+  docId: string
+  orderId: string
+  score: number
+  content: string
+  anonymousFlag: 0 | 1
+}) => request.post<T, any>('', data)

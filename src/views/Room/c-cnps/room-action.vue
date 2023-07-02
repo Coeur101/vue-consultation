@@ -1,17 +1,30 @@
 <script setup lang="ts">
 import { OrderType } from '@/enum'
-
+import type { UploaderAfterRead } from 'vant/lib/uploader/types'
+import type { Image } from '@/types/consult'
+import { reqImg } from '@/api/consult'
+import { showLoadingToast } from 'vant'
 const text = ref('')
 defineProps<{
   status?: OrderType
 }>()
 const emit = defineEmits<{
   (e: 'send-text', data?: string): void
+  (e: 'send-image', img: Image): void
 }>()
 // 子传父，传入发送的消息
 const handleSendText = () => {
   emit('send-text', text.value)
   text.value = ''
+}
+// 发送图片消息
+const handleSendImage: UploaderAfterRead = async (data) => {
+  if (Array.isArray(data)) return
+  if (!data.file) return
+  const t = showLoadingToast('正在加载')
+  const res = await reqImg(data.file)
+  t.close()
+  emit('send-image', res.data)
 }
 </script>
 
@@ -27,7 +40,11 @@ const handleSendText = () => {
       @keyup.enter="handleSendText"
       :disabled="status === OrderType.ConsultChat"
     ></van-field>
-    <van-uploader :preview-image="false" :disabled="true">
+    <van-uploader
+      :disabled="status === OrderType.ConsultChat"
+      :preview-image="false"
+      :after-read="handleSendImage"
+    >
       <cp-icon name="consult-img" />
     </van-uploader>
   </div>

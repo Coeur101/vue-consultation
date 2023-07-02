@@ -3,13 +3,15 @@
 import { IllnessTime } from '@/enum'
 import { flagOptions, timeOptions } from '@/services/constants'
 import { type FOLLOW_DOCTOR_DATA, type Image } from '@/types/consult'
-import * as dayjs from 'dayjs'
+import EvaluateCard from './evaluate-card.vue'
+import dayjs from 'dayjs'
 const formatTime = (time: string) => dayjs(time).format('HH:mm:ss')
 
 import type { Message } from '@/types/room'
 import { MsgType } from '@/enum'
 import { showImagePreview } from 'vant'
 import useUserStore from '@/stores/modules/user'
+import { reqPrescription } from '@/api/consult'
 const userStore = useUserStore()
 defineProps<{ list: Message[]; docInfo: FOLLOW_DOCTOR_DATA }>()
 // 取出就诊时间
@@ -21,6 +23,13 @@ const getConsultFlagText = (flag: 0 | 1) =>
 const previewImg = (pictures?: Image[]) => {
   if (pictures && pictures.length)
     showImagePreview(pictures?.map((item) => item.url))
+}
+// 获取原始处方图片
+const showPrescription = async (id?: string) => {
+  if (id) {
+    const res = await reqPrescription(id)
+    showImagePreview([res.data.url])
+  }
 }
 </script>
 
@@ -84,18 +93,27 @@ const previewImg = (pictures?: Image[]) => {
       <van-image :src="userStore.user?.avatar" />
     </div>
     <!-- 发送图片 -->
-    <!-- <div class="msg msg-to">
+    <div
+      class="msg msg-to"
+      v-if="msgType === MsgType.MsgImage && userStore.user?.id === from"
+    >
       <div class="content">
-        <div class="time">20:12</div>
-        <van-image
-          fit="contain"
-          src="https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/popular_3.jpg"
-        />
+        <div class="time">{{ formatTime(createTime) }}</div>
+        <van-image fit="contain" :src="msg.picture?.url" />
       </div>
-      <van-image
-        src="https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/popular_3.jpg"
-      />
-    </div> -->
+      <van-image :src="userStore.user?.avatar" />
+    </div>
+    <!-- 接收图片 -->
+    <div
+      class="msg msg-from"
+      v-if="msgType === MsgType.MsgImage && userStore.user?.id !== from"
+    >
+      <van-image :src="userStore.user?.avatar" />
+      <div class="content">
+        <div class="time">{{ formatTime(createTime) }}</div>
+        <van-image fit="contain" :src="msg.picture?.url" />
+      </div>
+    </div>
     <!-- 接收文字 -->
     <!-- 医生发的消息 -->
     <div
@@ -108,45 +126,51 @@ const previewImg = (pictures?: Image[]) => {
         <div class="pao">{{ msg.content }}</div>
       </div>
     </div>
-    <!-- 接收图片 -->
-    <!-- <div class="msg msg-from">
-      <van-image
-        src="https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/popular_3.jpg"
-      />
-      <div class="content">
-        <div class="time">20:12</div>
-        <van-image
-          fit="contain"
-          src="https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/popular_3.jpg"
-        />
-      </div>
-    </div> -->
-    <!-- 处方卡片 -->
-    <!-- <div class="msg msg-recipe">
-      <div class="content">
+    <!-- 处方 -->
+    <div class="msg msg-recipe" v-if="msgType === MsgType.CardPre">
+      <div class="content" v-if="msg.prescription">
         <div class="head van-hairline--bottom">
           <div class="head-tit">
             <h3>电子处方</h3>
-            <p>原始处方 <van-icon name="arrow"></van-icon></p>
+            <p @click="showPrescription(msg.prescription?.id)">
+              原始处方 <van-icon name="arrow"></van-icon>
+            </p>
           </div>
-          <p>李富贵 男 31岁 血管性头痛</p>
-          <p>开方时间：2022-01-15 14:21:42</p>
+          <p>
+            {{ msg.prescription.name }}
+            {{ msg.prescription.genderValue }}
+            {{ msg.prescription.age }}岁
+            {{ msg.prescription.diagnosis }}
+          </p>
+          <p>开方时间：{{ msg.prescription.createTime }}</p>
         </div>
         <div class="body">
-          <div class="body-item" v-for="i in 2" :key="i">
+          <div
+            class="body-item"
+            v-for="med in msg.prescription.medicines"
+            :key="med.id"
+          >
             <div class="durg">
-              <p>优赛明 维生素E乳</p>
-              <p>口服，每次1袋，每天3次，用药3天</p>
+              <p>{{ med.name }} {{ med.specs }}</p>
+              <p>{{ med.usageDosag }}</p>
             </div>
-            <div class="num">x1</div>
+            <div class="num">x{{ med.quantity }}</div>
           </div>
         </div>
-        <div class="foot"><span>购买药品</span></div>
+        <div class="foot">
+          <span @click="">购买药品</span>
+        </div>
       </div>
-    </div> -->
+    </div>
+    <!-- 当问诊结束后，跳出评价卡片 -->
+    <div
+      class="msg msg-comment"
+      v-if="msgType === MsgType.CardEva || msgType === MsgType.CardEvaForm"
+    >
+      <!-- 评价卡片，后期实现 -->
+      <EvaluateCard></EvaluateCard>
+    </div>
   </template>
-
-  <!-- 评价卡片，后期实现 -->
 </template>
 
 <style lang="scss" scoped>

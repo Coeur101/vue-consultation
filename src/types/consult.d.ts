@@ -300,6 +300,13 @@ export type ConsultOrderItem = Consult & {
   /** 实付款 */
   actualPayment: number
 }
+/** 获取聊天室状态的类型 */
 export interface RES_CONSULT_STATUS extends GOLBAL_API_STATUS {
   data: ConsultOrderItem
+}
+/** 获取处方图片的类型 */
+export interface RES_PRECRIPTION_DATA extends GOLBAL_API_STATUS {
+  data: {
+    url: string
+  }
 }
