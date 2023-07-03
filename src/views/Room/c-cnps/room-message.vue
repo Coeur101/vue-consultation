@@ -1,8 +1,7 @@
 <!-- 消息卡片组件，根据消息类型判断显示不同消息卡片 -->
 <script setup lang="ts">
-import { IllnessTime } from '@/enum'
-import { flagOptions, timeOptions } from '@/services/constants'
 import { type FOLLOW_DOCTOR_DATA, type Image } from '@/types/consult'
+import { getIllnessTimeText, getConsultFlagText } from '@/utils/filter'
 import EvaluateCard from './evaluate-card.vue'
 import dayjs from 'dayjs'
 const formatTime = (time: string) => dayjs(time).format('HH:mm:ss')
@@ -11,25 +10,14 @@ import type { Message } from '@/types/room'
 import { MsgType } from '@/enum'
 import { showImagePreview } from 'vant'
 import useUserStore from '@/stores/modules/user'
-import { reqPrescription } from '@/api/consult'
+import { useShowPrescription } from '@/hooks/useShowPrescription'
+const { onShowPrescription } = useShowPrescription()
 const userStore = useUserStore()
 defineProps<{ list: Message[]; docInfo: FOLLOW_DOCTOR_DATA }>()
-// 取出就诊时间
-const getIllnessTimeText = (time: IllnessTime) =>
-  timeOptions.find((item) => item.value === time)?.text
-// 取出是否在医院就诊过
-const getConsultFlagText = (flag: 0 | 1) =>
-  flagOptions.find((item) => item.value === flag)?.text
+
 const previewImg = (pictures?: Image[]) => {
   if (pictures && pictures.length)
     showImagePreview(pictures?.map((item) => item.url))
-}
-// 获取原始处方图片
-const showPrescription = async (id?: string) => {
-  if (id) {
-    const res = await reqPrescription(id)
-    showImagePreview([res.data.url])
-  }
 }
 </script>
 
@@ -132,7 +120,7 @@ const showPrescription = async (id?: string) => {
         <div class="head van-hairline--bottom">
           <div class="head-tit">
             <h3>电子处方</h3>
-            <p @click="showPrescription(msg.prescription?.id)">
+            <p @click="onShowPrescription(msg.prescription?.id)">
               原始处方 <van-icon name="arrow"></van-icon>
             </p>
           </div>

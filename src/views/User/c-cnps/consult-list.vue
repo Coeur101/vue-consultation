@@ -26,6 +26,11 @@ const onLoad = async () => {
   }
   loading.value = false
 }
+const onDelete = (id: string) => {
+  // 过滤数据重新渲染，假如删除的是当前页的最后一个元素，则重新请求
+  list.value = list.value.filter((item) => item.id !== id)
+  if (!list.value.length) onLoad()
+}
 </script>
 
 <template>
@@ -36,7 +41,12 @@ const onLoad = async () => {
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <consult-item v-for="item in list" :key="item.id" :item="item" />
+      <consult-item
+        @on-delete="onDelete"
+        v-for="item in list"
+        :key="item.id"
+        :item="item"
+      />
     </van-list>
   </div>
 </template>

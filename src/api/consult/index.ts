@@ -44,7 +44,11 @@ enum API {
   /** 获取订单列表 */
   GET_CONSULT_ORDER_LIST = 'patient/consult/order/list',
   /** 取消订单 */
-  CANCEL_ORDER = 'patient/order/cancel'
+  CANCEL_ORDER = 'patient/order/cancel',
+  /** 删除订单 */
+  DEL_ORDER_URL = 'patient/order',
+  /** 查询订单详情信息 */
+  GET_ORDER_INFO = 'patient/consult/order/detail'
 }
 export const reqKnwledge = <T>(knowledgeParams: REQ_KNOWLEDGE_DATA) => {
   return request.get<T, RES_HOME_DATA>(API.GET_KNOWLEDGE_URL, {
@@ -111,4 +115,14 @@ export const reqOrderList = <T>(params: ConsultOrderListParams) => {
 }
 export const reqCancelOrder = <T>(id: string) => {
   return request.put<T, any>(API.CANCEL_ORDER + `/${id}`)
+}
+export const reqDelOrder = <T>(id: string) => {
+  return request.delete<T, any>(API.DEL_ORDER_URL + `/${id}`)
+}
+export const reqAllOrderInfo = <T>(id: string) => {
+  return request.get<T, RES_CONSULT_STATUS>(API.GET_ORDER_INFO, {
+    params: {
+      orderId: id
+    }
+  })
 }
