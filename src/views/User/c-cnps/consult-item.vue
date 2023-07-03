@@ -1,57 +1,28 @@
 <script setup lang="ts">
 import type { ConsultOrderItem } from '@/types/consult'
-import { useRouter } from 'vue-router'
 import { OrderType } from '@/enum'
-import { useConsultStore } from '@/stores/modules/consult'
-import { reqCancelOrder, reqDelOrder } from '@/api/consult'
-import { showFailToast, showSuccessToast } from 'vant'
 import CpConsultMore from './consult-more.vue'
 import { useShowPrescription } from '@/hooks/useShowPrescription'
-const consultStore = useConsultStore()
+import { useCancelOrder } from '@/hooks/useCancelOrder'
+import { useDelOrder } from '@/hooks/useDelOrder'
+import { useRouter } from 'vue-router'
 const router = useRouter()
-const { onShowPrescription } = useShowPrescription()
 const props = defineProps<{
   item: ConsultOrderItem
 }>()
+const { handleCancelOrder, loading } = useCancelOrder()
+const { onShowPrescription } = useShowPrescription()
 const emit = defineEmits(['on-delete'])
-const loading = ref(false)
-// 删除订单
-const deleteLoading = ref(false)
-const showPopover = ref(false)
-const actions = computed(() => [
-  { text: '查看处方', disabled: !props.item.prescriptionId },
-  { text: '删除订单' }
-])
-const handleCancelOrder = async () => {
-  loading.value = true
-  try {
-    loading.value = true
-    await reqCancelOrder(props.item.id)
-    showSuccessToast('取消成功')
-    props.item.status = OrderType.ConsultCancel
-    props.item.statusValue = '已取消'
-  } catch (error) {
-    showFailToast('取消失败')
-  } finally {
-    loading.value = false
-  }
-}
-const handleDelOrder = async () => {
-  try {
-    deleteLoading.value = true
-    await reqDelOrder(props.item.id)
-    emit('on-delete', props.item.id)
-    showSuccessToast('删除成功')
-  } catch (error) {
-    showFailToast('删除失败')
-  } finally {
-    deleteLoading.value = false
-  }
-}
+const { handleDelOrder, deleteLoading } = useDelOrder(() => {
+  emit('on-delete', props.item.id)
+})
+
 const handleShowPrescription = () => {
   onShowPrescription(props.item.prescriptionId)
 }
-const handleSaveOrder = () => {}
+const handleSaveOrder = () => {
+  router.push('/user/consult/' + props.item.id)
+}
 </script>
 
 <template>
@@ -87,7 +58,7 @@ const handleSaveOrder = () => {}
         plain
         size="small"
         round
-        @click="handleCancelOrder"
+        @click="handleCancelOrder(item)"
         :loading="loading"
         >取消问诊</van-button
       >
@@ -103,7 +74,15 @@ const handleSaveOrder = () => {}
       </van-button>
     </div>
     <div class="foot" v-if="item.status === OrderType.ConsultWait">
-      <van-button class="gray" plain size="small" round>取消问诊</van-button>
+      <van-button
+        class="gray"
+        plain
+        size="small"
+        round
+        @click="handleCancelOrder(item)"
+        :loading="loading"
+        >取消问诊</van-button
+      >
       <van-button
         type="primary"
         plain
@@ -139,8 +118,8 @@ const handleSaveOrder = () => {}
       <div class="more">
         <cp-consult-more
           :disabled="!item.prescriptionId"
-          @on-delete="handleDelOrder()"
-          @on-preview="onShowPrescription()"
+          @on-delete="handleDelOrder(item)"
+          @on-preview="onShowPrescription(item?.prescriptionId)"
         ></cp-consult-more>
       </div>
       <van-button
@@ -179,7 +158,7 @@ const handleSaveOrder = () => {}
         plain
         size="small"
         round
-        @click="handleDelOrder()"
+        @click="handleDelOrder(item)"
         :loading="deleteLoading"
         >删除订单</van-button
       >

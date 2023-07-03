@@ -5,7 +5,7 @@ import type { Image } from '@/types/consult'
 import { reqImg } from '@/api/consult'
 import { showLoadingToast } from 'vant'
 const text = ref('')
-defineProps<{
+const { disabled } = defineProps<{
   disabled?: OrderType
 }>()
 const emit = defineEmits<{

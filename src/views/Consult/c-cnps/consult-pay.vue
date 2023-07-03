@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { reqOrderInfo, reqOrder, reqPay } from '@/api/consult'
+import { reqOrderInfo, reqOrder } from '@/api/consult'
 import { useConsultStore } from '@/stores/modules/consult'
 import type { ConsultOrderPreData, PartialConsult } from '@/types/consult'
 import { showConfirmDialog, showDialog, showFailToast } from 'vant'
 import { useRouter } from 'vue-router'
+import CpPaySheet from '@/components/cp-pay-sheet/index.vue'
 const router = useRouter()
 const consultStore = useConsultStore()
 const payInfo = ref<ConsultOrderPreData>()
@@ -11,7 +12,6 @@ const show = ref(false)
 const agree = ref(false)
 const loading = ref(false)
 const orderId = ref('')
-const paymentMethod = ref<(0 | 1) & number>()
 const loadData = async () => {
   try {
     const res = await reqOrderInfo({
@@ -42,18 +42,6 @@ const handleShowDrawerPay = async () => {
   } catch (error) {
     loading.value = false
   }
-}
-// 真正的支付按钮,点击支付弹层按钮，获取支付地址进行跳转支付
-const handlePay = async () => {
-  if (!paymentMethod.value) return showFailToast('请选择支付方式')
-  const res = await reqPay({
-    paymentMethod: paymentMethod.value,
-    orderId: orderId.value,
-    // 传入回跳地址为问诊室，支付成功后跳转进入
-    payCallback: 'http://127.0.0.1:5173/room'
-  })
-  // 跳转到支付宝的页面支付地址
-  window.location.href = res.data.payUrl
 }
 const onClose = async () => {
   show.value = await showConfirmDialog({
@@ -163,38 +151,12 @@ onMounted(() => {
       text-align="left"
       v-if="payInfo"
     />
-    <!-- 弹出支付方式的抽屉 -->
-    <van-action-sheet
+    <cp-pay-sheet
       v-model:show="show"
-      :closeable="false"
-      :close-on-click-overlay="true"
-      :close-on-popstate="false"
-      @close="onClose"
-      title="选择支付方式"
-    >
-      <div class="pay-type">
-        <p class="amount">￥{{ payInfo?.actualPayment }}</p>
-        <van-cell-group>
-          <van-cell title="微信支付" @click="paymentMethod = 0">
-            <template #icon><cp-icon name="consult-wechat" /></template>
-            <template #extra
-              ><van-checkbox :checked="paymentMethod === 0"
-            /></template>
-          </van-cell>
-          <van-cell title="支付宝支付" @click="paymentMethod = 1">
-            <template #icon><cp-icon name="consult-alipay" /></template>
-            <template #extra
-              ><van-checkbox :checked="paymentMethod === 1"
-            /></template>
-          </van-cell>
-        </van-cell-group>
-        <div class="btn">
-          <van-button @click="handlePay" type="primary" round block
-            >立即支付</van-button
-          >
-        </div>
-      </div>
-    </van-action-sheet>
+      :order-id="orderId"
+      :actualPayment="(payInfo?.actualPayment as number)"
+      :onClose="onClose"
+    />
   </div>
 </template>
 

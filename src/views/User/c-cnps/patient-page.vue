@@ -119,7 +119,8 @@ const selectedPatient = (data: PATIENTS_DATA) => {
 }
 /** 记录患者id开始跳转支付页面 */
 const next = () => {
-  if (!patientId.value) showFailToast('请选择患者')
+  if (!patientId.value || !selectPatient.value)
+    return showFailToast('请选择患者')
   consultStore.setPatientId(patientId.value as string)
   consultStore.setPatient(selectPatient.value as PATIENTS_DATA)
   router.push('/consult/pay')
