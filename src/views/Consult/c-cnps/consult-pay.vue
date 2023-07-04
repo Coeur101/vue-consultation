@@ -156,6 +156,7 @@ onMounted(() => {
       :order-id="orderId"
       :actualPayment="(payInfo?.actualPayment as number)"
       :onClose="onClose"
+      :pay-callback="'/room'"
     />
   </div>
 </template>

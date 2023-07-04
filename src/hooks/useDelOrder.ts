@@ -1,5 +1,6 @@
 import { reqDelOrder } from '@/api/consult'
 import type { ConsultOrderItem } from '@/types/consult'
+import type { MedicineInfo, OrderDetail } from '@/types/medicine'
 import { showFailToast, showSuccessToast } from 'vant'
 
 // 抽取删除订单代码
@@ -7,7 +8,9 @@ export const useDelOrder = (cb: () => void) => {
   // 删除订单
   const deleteLoading = ref(false)
 
-  const handleDelOrder = async (item: ConsultOrderItem) => {
+  const handleDelOrder = async (
+    item: ConsultOrderItem | MedicineInfo | OrderDetail
+  ) => {
     try {
       deleteLoading.value = true
       await reqDelOrder(item.id)

@@ -66,7 +66,7 @@ onMounted(async () => {
     <div class="user-page-order">
       <div class="head">
         <h3>药品订单</h3>
-        <router-link to="/order"
+        <router-link to="/user/order"
           >全部订单 <van-icon name="arrow"
         /></router-link>
       </div>

@@ -199,6 +199,7 @@ onMounted(async () => {
       v-model:show="show"
       :order-id="item.id"
       :actualPayment="item.actualPayment"
+      pay-callback="/room"
     />
   </div>
   <div class="consult-detail-page" v-else>

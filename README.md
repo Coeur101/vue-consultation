@@ -1,3 +1,5 @@
+# 								医疗问诊（患者端）
+
 ## 项目介绍
 
 使用基于 vite 的 create-vue 脚手架，采用 Vue3 全家桶：Vue3+TypeScript+Vue-Router+Pinia 的最新组合。
@@ -221,8 +223,3 @@ pnpm install
 ```
 pnpm dev
 ```
-
-
-
-
-

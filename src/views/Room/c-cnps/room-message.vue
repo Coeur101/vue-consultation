@@ -4,13 +4,15 @@ import { type FOLLOW_DOCTOR_DATA, type Image } from '@/types/consult'
 import { getIllnessTimeText, getConsultFlagText } from '@/utils/filter'
 import EvaluateCard from './evaluate-card.vue'
 import dayjs from 'dayjs'
-const formatTime = (time: string) => dayjs(time).format('HH:mm:ss')
-
-import type { Message } from '@/types/room'
-import { MsgType } from '@/enum'
-import { showImagePreview } from 'vant'
+import type { Message, Prescription } from '@/types/room'
+import { MsgType, PrescriptionStatus } from '@/enum'
+import { showFailToast, showImagePreview } from 'vant'
 import useUserStore from '@/stores/modules/user'
 import { useShowPrescription } from '@/hooks/useShowPrescription'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const formatTime = (time: string) => dayjs(time).format('HH:mm:ss')
+
 const { onShowPrescription } = useShowPrescription()
 const userStore = useUserStore()
 defineProps<{ list: Message[]; docInfo: FOLLOW_DOCTOR_DATA }>()
@@ -18,6 +20,18 @@ defineProps<{ list: Message[]; docInfo: FOLLOW_DOCTOR_DATA }>()
 const previewImg = (pictures?: Image[]) => {
   if (pictures && pictures.length)
     showImagePreview(pictures?.map((item) => item.url))
+}
+const handlePayDrug = (pre: Prescription) => {
+  if (pre) {
+    // 如果处方失效 则提示
+    if (pre.status === PrescriptionStatus.Invalid) {
+      return showFailToast('处方已失效')
+    }
+    if (pre.status === PrescriptionStatus.NotPayment) {
+      // 未付款则去药品预支付页面
+      return router.push(`/medicine/pay?id=${pre.id}`)
+    }
+  }
 }
 </script>
 
@@ -108,7 +122,7 @@ const previewImg = (pictures?: Image[]) => {
       class="msg msg-from"
       v-if="msgType === MsgType.MsgText && userStore.user?.id !== from"
     >
-      <van-image :src="docInfo.avatar" />
+      <van-image :src="docInfo?.avatar" />
       <div class="content">
         <div class="time">{{ formatTime(createTime) }}</div>
         <div class="pao">{{ msg.content }}</div>
@@ -146,7 +160,7 @@ const previewImg = (pictures?: Image[]) => {
           </div>
         </div>
         <div class="foot">
-          <span @click="">购买药品</span>
+          <span @click="handlePayDrug(msg.prescription)">购买药品</span>
         </div>
       </div>
     </div>

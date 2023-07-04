@@ -80,14 +80,43 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/user/consult',
-    component: () => import('@/views/User/c-cnps/consult-page.vue'),
+    component: () => import('@/views/User/c-cnps/consultPage/consult-page.vue'),
     meta: { title: '问诊记录' }
   },
   {
     path: '/user/consult/:id',
-    component: () => import('@/views/User/c-cnps/consult-detail.vue'),
+    component: () =>
+      import('@/views/User/c-cnps/consultPage/consult-detail.vue'),
     meta: {
       title: '问诊详情'
+    }
+  },
+  {
+    path: '/user/order',
+    component: () => import('@/views/User/c-cnps/orderPage/order-page.vue'),
+    meta: {
+      title: '我的订单'
+    }
+  },
+  {
+    path: '/medicine/pay',
+    component: () => import('@/views/Medicine/index.vue'),
+    meta: {
+      title: '药品支付'
+    }
+  },
+  {
+    path: '/medicine/pay/result',
+    component: () => import('@/views/Medicine/c-cnps/order-pay-result.vue'),
+    meta: {
+      title: '药品支付结果'
+    }
+  },
+  {
+    path: '/user/order/:id',
+    component: () => import('@/views/User/c-cnps/orderPage/order-detail.vue'),
+    meta: {
+      title: '订单详情'
     }
   }
 ]
