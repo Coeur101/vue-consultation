@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (e: 'on-preview'): void
 }>()
 
-const onSelect = (action: { text: string }, i: number) => {
+const onSelect = (_: any, i: number) => {
   if (i === 0) emit('on-preview')
   if (i === 1) emit('on-delete')
 }
