@@ -12,8 +12,8 @@ const agree = ref(false)
 const isPass = ref(false)
 
 // 登录所需
-const mobile = ref('')
-const password = ref('')
+const mobile = ref('13230000077')
+const password = ref('abc12345')
 const { code, form, time, sendCode } = useSendCode(mobile.value)
 const switchLogin = () => {
   isPass.value = !isPass.value
