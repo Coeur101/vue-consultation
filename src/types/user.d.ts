@@ -1,4 +1,4 @@
-import { GOLBAL_API_STATUS } from './global'
+import { GOLBAL_API_STATUS } from './global-status'
 export interface USER_DATA {
   /**
    * 用户名
@@ -28,7 +28,12 @@ export interface USER_DATA {
 export interface RES_USER_DATA extends GOLBAL_API_STATUS {
   data: USER_DATA
 }
-export type CodeType = 'login' | 'register' | 'changeMobile' | 'forgetPassword' | 'bindMobile'
+export type CodeType =
+  | 'login'
+  | 'register'
+  | 'changeMobile'
+  | 'forgetPassword'
+  | 'bindMobile'
 export interface CODE_DATA {
   /**
    * 手机验证码

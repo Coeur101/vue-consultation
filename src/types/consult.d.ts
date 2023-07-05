@@ -1,4 +1,4 @@
-import type { GOLBAL_API_STATUS } from './global'
+import type { GOLBAL_API_STATUS } from './global-status'
 import { ConsultType, IllnessTime } from '@/enum'
 import { OrderType } from '@/enum'
 export interface RES_HOME_DATA extends GOLBAL_API_STATUS {

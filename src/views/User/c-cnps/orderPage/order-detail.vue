@@ -5,6 +5,7 @@ import { OrderType } from '@/enum'
 import { useRoute, useRouter } from 'vue-router'
 import { useDelOrder } from '@/hooks/useDelOrder'
 import { useCancelOrder } from '@/hooks/useCancelOrder'
+import CpMedicines from '@/components/cp-medicines/index.vue'
 const route = useRoute()
 const router = useRouter()
 const show = ref(false)
@@ -67,7 +68,7 @@ onMounted(() => {
         <van-icon name="arrow" />
       </div>
     </div>
-    <order-medical :medicines="order?.medicines" />
+    <cp-medicines :medicines="order?.medicines" />
     <div class="order-detail">
       <van-cell-group>
         <van-cell title="药品金额" :value="`￥${order.payment}`" />

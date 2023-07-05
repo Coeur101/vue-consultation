@@ -118,6 +118,11 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '订单详情'
     }
+  },
+  {
+    path: '/order/logistics/:id',
+    component: () => import('@/views/Medicine/c-cnps/medicine-logistics.vue'),
+    meta: { title: '物流详情' }
   }
 ]
 export default routes

@@ -19,7 +19,7 @@ const { handleDelOrder, deleteLoading } = useDelOrder(() => {
 })
 
 const handleSaveOrder = () => {
-  router.push('/user/consult/' + props.item.id)
+  router.push('/user/order/' + props.item.id)
 }
 </script>
 
@@ -29,6 +29,7 @@ const handleSaveOrder = () => {
       :medicines="item.medicines"
       @click="$router.push(`/user/order/${item.id}`)"
     ></cp-medicines>
+    <div class="order-price">药品总价:{{ item.actualPayment }}</div>
     <div class="foot" v-if="item.status === OrderType.MedicinePay">
       <van-button
         class="gray"
@@ -70,6 +71,14 @@ const handleSaveOrder = () => {
   box-shadow: 0px 0px 22px 0px rgba(245, 245, 245, 0.1);
   background-color: #fff;
   margin-bottom: 10px;
+  .order-price {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0;
+    font-size: 16px;
+    padding: 0 10px;
+    color: orangered;
+  }
   .foot {
     padding: 0 15px 15px 15px;
     display: flex;

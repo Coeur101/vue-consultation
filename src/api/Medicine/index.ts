@@ -2,6 +2,7 @@ import type {
   REQ_ORDER_PARAMS,
   RES_ADDRESS_DATA,
   RES_MEDICINE_DATA,
+  RES_MEDICINE_LST,
   RES_MEDICINE_ORDER_DATA,
   RES_ORDER_DETIAL_DATA
 } from '@/types/medicine'
@@ -39,7 +40,7 @@ export const reqMedicineOrder = <T>(data: {
   return request.post<T, res>(API.CREAT_ORDER_URL, data)
 }
 export const reqMedicineOrderDetail = <T>(id: string) =>
-  request<T, RES_ORDER_DETIAL_DATA>(API.GET_MEDICINE_ORDER + `/${id}`)
+  request.get<T, RES_ORDER_DETIAL_DATA>(API.GET_MEDICINE_ORDER + `/${id}`)
 export const reqMedicineOrderList = <T>(params: REQ_ORDER_PARAMS) => {
   return request.get<T, RES_MEDICINE_ORDER_DATA>(API.GET_MEDICINE_ORDER_LIST, {
     params: {
@@ -48,4 +49,7 @@ export const reqMedicineOrderList = <T>(params: REQ_ORDER_PARAMS) => {
       pageSize: params.pageSize
     }
   })
+}
+export const reqMedicineOrderLogistics = <T>(id: string) => {
+  return request.get<T, RES_MEDICINE_LST>(`patient/order/${id}/logistics`)
 }

@@ -14,7 +14,7 @@ onMounted(async () => {
 <template>
   <div class="order-pay-result-page">
     <cp-nav-bar title="药品支付结果" />
-    <div class="result" v-if="order?.status === OrderType.ConsultPay">
+    <div class="result" v-if="order?.status === OrderType.MedicinePay">
       <van-icon name="clear" />
       <p class="price">￥ {{ order?.actualPayment }}</p>
       <p class="status">支付失败</p>
@@ -29,7 +29,7 @@ onMounted(async () => {
       <p class="tip">订单支付成功，已通知药房尽快发出， 请耐心等待~</p>
     </div>
     <div class="btn">
-      <van-button type="primary" :to="`/order/${order?.id}`"
+      <van-button type="primary" :to="`/user/order/${order?.id}`"
         >查看订单</van-button
       >
       <van-button :to="`/room?orderId=${order?.roomId}`">返回诊室</van-button>

@@ -75,8 +75,11 @@ const pay = async () => {
   }
   .van-cell {
     align-items: center;
+    justify-content: space-between;
     .cp-icon {
-      margin-right: 10px;
+      right: 0;
+
+      margin-right: 20px;
       font-size: 18px;
     }
     .van-checkbox :deep(.van-checkbox__icon) {

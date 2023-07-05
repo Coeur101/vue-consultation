@@ -159,9 +159,13 @@ const handlePayDrug = (pre: Prescription) => {
             <div class="num">x{{ med.quantity }}</div>
           </div>
         </div>
-        <div class="foot">
+        <div
+          class="foot"
+          v-if="msg.prescription.status === PrescriptionStatus.NotPayment"
+        >
           <span @click="handlePayDrug(msg.prescription)">购买药品</span>
         </div>
+        <div class="foot" v-else>已付款</div>
       </div>
     </div>
     <!-- 当问诊结束后，跳出评价卡片 -->
