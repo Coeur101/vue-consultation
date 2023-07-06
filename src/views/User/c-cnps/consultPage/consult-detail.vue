@@ -31,8 +31,13 @@ const handlePay = () => {
   show.value = true
 }
 onMounted(async () => {
-  const res = await reqAllOrderInfo(route.params.id as string)
-  item.value = res.data
+  try {
+    const res = await reqAllOrderInfo(route.params.id as string)
+  item.value = res.data 
+  } catch (error) {
+    router.push('/user/consult')
+  }
+  
 })
 </script>
 
